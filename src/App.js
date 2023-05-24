@@ -1,23 +1,36 @@
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react'
+import Header from './components/Header';
+import ListStudents from './components/ListStudents';
+import Footer from './components/Footer';
 import './App.css';
 
 function App() {
+
+  const [studentData, setStudentData] = useState([]);
+  const [sum, setSum] = useState(0);
+  const [maxPoint, setMaxPoint] = useState()
+
+  const addStudent = (student) => {
+    setStudentData(prevData => [...prevData, student]);
+  };
+
+  useEffect(() => {
+    let totalPoints = 0;
+    studentData.forEach((element) => {
+      totalPoints += element.point;
+    });
+    setSum(totalPoints);
+  }, [studentData]);
+
+  
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <section className='container'>
+        <Header sum={sum} studentData={studentData}/>
+        <ListStudents data={studentData} />
+        <Footer onAdd={addStudent} />
+      </section>
     </div>
   );
 }
