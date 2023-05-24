@@ -5,13 +5,30 @@ import Footer from './components/Footer';
 import './App.css';
 
 function App() {
-
   const [studentData, setStudentData] = useState([]);
   const [sum, setSum] = useState(0);
-  const [maxPoint, setMaxPoint] = useState()
-
   const addStudent = (student) => {
     setStudentData(prevData => [...prevData, student]);
+  };
+
+  const handleDelete = (index) => {
+    const updatedPlayers = [...studentData];
+    updatedPlayers.splice(index, 1);
+    setStudentData(updatedPlayers);
+  };
+
+  const handlePlus = (index) => {
+    const updatedPlayers = [...studentData];
+    updatedPlayers[index].point += 1;
+    setStudentData(updatedPlayers);
+  };
+
+  const handleMinus = (index) => {
+    const updatedPlayers = [...studentData];
+    if (updatedPlayers[index].point > 0) {
+      updatedPlayers[index].point -= 1;
+      setStudentData(updatedPlayers);
+    }
   };
 
   useEffect(() => {
@@ -22,13 +39,16 @@ function App() {
     setSum(totalPoints);
   }, [studentData]);
 
-  
-
   return (
     <div className="App">
       <section className='container'>
-        <Header sum={sum} studentData={studentData}/>
-        <ListStudents data={studentData} />
+      <Header studentData={studentData} sum={sum} />
+        <ListStudents
+          data={studentData}
+          onDelete={handleDelete}
+          onPlus={handlePlus}
+          onMinus={handleMinus}
+        />
         <Footer onAdd={addStudent} />
       </section>
     </div>

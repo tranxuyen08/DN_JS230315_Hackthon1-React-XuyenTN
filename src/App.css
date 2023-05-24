@@ -144,3 +144,6 @@ h1{
 .header-left{
   display: grid;
 }
+.fa-crown.yellow {
+  color: yellow;
+}
